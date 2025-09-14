@@ -11,11 +11,11 @@ import { takeUntil } from 'rxjs/operators';
   standalone: true,
   imports: [CommonModule, FormsModule, DatePipe],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'weather-pro';
-  city: string = 'London';
+  city: string = 'Hyderabad';
   dupCity = this.city;
   data?: WeatherData;
   checkCity: boolean = false;
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
   chartType: string = 'line';
   weatherInsights: any[] = [];
   isMapModalOpen: boolean = false;
-  
+
   private destroy$ = new Subject<void>();
 
   constructor(private weatherService: WeatherService) {}
@@ -43,7 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.loadTheme();
     this.common(this.city);
     this.city = '';
-    
+
     // Update time every minute
     interval(60000)
       .pipe(takeUntil(this.destroy$))
@@ -81,7 +81,8 @@ export class AppComponent implements OnInit, OnDestroy {
         },
         (error) => {
           this.loading = false;
-          this.errorMessage = 'Unable to get your location. Please search for a city.';
+          this.errorMessage =
+            'Unable to get your location. Please search for a city.';
           console.error('Geolocation error:', error);
         }
       );
@@ -103,14 +104,14 @@ export class AppComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.errorMessage = 'Unable to get weather data for your location.';
         console.error(err);
-      }
+      },
     });
   }
 
   private common(city: string): void {
     this.loading = true;
     this.clearError();
-    
+
     // Fetch current weather and forecast data in parallel
     this.weatherService.getWeatherData(city).subscribe({
       next: (response) => {
@@ -119,14 +120,14 @@ export class AppComponent implements OnInit, OnDestroy {
         this.checkCity = false;
         this.clearError();
         console.log(response);
-        
+
         // Fetch forecast data after current weather loads
         this.getForecastData(city);
         this.generateMockHourlyData();
         this.generateMockAlerts();
         this.generateWeatherParticles();
         this.generateWeatherInsights();
-        
+
         // Draw chart after data loads
         setTimeout(() => this.drawTemperatureChart(), 200);
       },
@@ -151,7 +152,7 @@ export class AppComponent implements OnInit, OnDestroy {
       error: (err) => {
         console.error('Forecast error:', err);
         this.forecastData = null;
-      }
+      },
     });
   }
 
@@ -159,19 +160,22 @@ export class AppComponent implements OnInit, OnDestroy {
     // Generate mock hourly data for the next 24 hours
     this.hourlyData = [];
     const now = new Date();
-    
+
     for (let i = 0; i < 24; i++) {
       const hour = new Date(now.getTime() + i * 60 * 60 * 1000);
       this.hourlyData.push({
         time: hour.toISOString(),
         temp_c: Math.round(15 + Math.sin(i * 0.3) * 10 + Math.random() * 5),
         condition: {
-          text: ['Sunny', 'Partly Cloudy', 'Cloudy', 'Rainy'][Math.floor(Math.random() * 4)],
-          icon: 'https://openweathermap.org/img/wn/01d@2x.png'
+          text: ['Sunny', 'Partly Cloudy', 'Cloudy', 'Rainy'][
+            Math.floor(Math.random() * 4)
+          ],
+          icon: 'https://openweathermap.org/img/wn/01d@2x.png',
         },
         humidity: Math.round(40 + Math.random() * 40),
         wind_kph: Math.round(5 + Math.random() * 20),
-        chance_of_rain: Math.random() > 0.7 ? Math.round(Math.random() * 100) : 0
+        chance_of_rain:
+          Math.random() > 0.7 ? Math.round(Math.random() * 100) : 0,
       });
     }
   }
@@ -181,16 +185,18 @@ export class AppComponent implements OnInit, OnDestroy {
     this.weatherAlerts = [
       {
         title: 'Heat Advisory',
-        description: 'High temperatures expected. Stay hydrated and avoid prolonged outdoor activities.',
+        description:
+          'High temperatures expected. Stay hydrated and avoid prolonged outdoor activities.',
         severity: 'moderate',
-        time: new Date().toISOString()
+        time: new Date().toISOString(),
       },
       {
         title: 'UV Index Warning',
-        description: 'UV index is very high today. Use sunscreen and protective clothing.',
+        description:
+          'UV index is very high today. Use sunscreen and protective clothing.',
         severity: 'high',
-        time: new Date().toISOString()
-      }
+        time: new Date().toISOString(),
+      },
     ];
   }
 
@@ -245,7 +251,7 @@ export class AppComponent implements OnInit, OnDestroy {
     const date = new Date(dateString);
     const today = new Date();
     const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-    
+
     if (date.toDateString() === today.toDateString()) {
       return 'Today';
     } else if (date.toDateString() === tomorrow.toDateString()) {
@@ -257,9 +263,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   formatHour(timeString: string): string {
     const date = new Date(timeString);
-    return date.toLocaleTimeString('en-US', { 
-      hour: 'numeric', 
-      hour12: true 
+    return date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      hour12: true,
     });
   }
 
@@ -270,20 +276,25 @@ export class AppComponent implements OnInit, OnDestroy {
       day: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
-      hour12: true
+      hour12: true,
     });
   }
 
   // Advanced Weather Features
   getWeatherBackgroundClass(): string {
     if (!this.data) return 'default';
-    
+
     const condition = this.data.current.condition.text.toLowerCase();
-    if (condition.includes('rain') || condition.includes('drizzle')) return 'rainy';
-    if (condition.includes('snow') || condition.includes('blizzard')) return 'snowy';
-    if (condition.includes('cloud') || condition.includes('overcast')) return 'cloudy';
-    if (condition.includes('sun') || condition.includes('clear')) return 'sunny';
-    if (condition.includes('storm') || condition.includes('thunder')) return 'stormy';
+    if (condition.includes('rain') || condition.includes('drizzle'))
+      return 'rainy';
+    if (condition.includes('snow') || condition.includes('blizzard'))
+      return 'snowy';
+    if (condition.includes('cloud') || condition.includes('overcast'))
+      return 'cloudy';
+    if (condition.includes('sun') || condition.includes('clear'))
+      return 'sunny';
+    if (condition.includes('storm') || condition.includes('thunder'))
+      return 'stormy';
     if (condition.includes('fog') || condition.includes('mist')) return 'foggy';
     return 'default';
   }
@@ -292,57 +303,57 @@ export class AppComponent implements OnInit, OnDestroy {
     this.weatherParticles = [];
     const particleCount = 20;
     const condition = this.data?.current.condition.text.toLowerCase() || '';
-    
+
     for (let i = 0; i < particleCount; i++) {
       let type = 'default';
       if (condition.includes('rain')) type = 'rain';
       else if (condition.includes('snow')) type = 'snow';
       else if (condition.includes('cloud')) type = 'cloud';
       else if (condition.includes('sun')) type = 'sun';
-      
+
       this.weatherParticles.push({
         x: Math.random() * 100,
         y: Math.random() * 100,
         delay: Math.random() * 5,
-        type: type
+        type: type,
       });
     }
   }
 
   generateWeatherInsights(): void {
     if (!this.data) return;
-    
+
     this.weatherInsights = [
       {
         icon: 'fas fa-thermometer-half',
         title: 'Temperature Trend',
-        description: this.getTemperatureInsight()
+        description: this.getTemperatureInsight(),
       },
       {
         icon: 'fas fa-wind',
         title: 'Wind Analysis',
-        description: this.getWindInsight()
+        description: this.getWindInsight(),
       },
       {
         icon: 'fas fa-tint',
         title: 'Humidity Level',
-        description: this.getHumidityInsight()
+        description: this.getHumidityInsight(),
       },
       {
         icon: 'fas fa-eye',
         title: 'Visibility Report',
-        description: this.getVisibilityInsight()
+        description: this.getVisibilityInsight(),
       },
       {
         icon: 'fas fa-sun',
         title: 'UV Index',
-        description: this.getUVInsight()
+        description: this.getUVInsight(),
       },
       {
         icon: 'fas fa-cloud',
         title: 'Cloud Coverage',
-        description: this.getCloudInsight()
-      }
+        description: this.getCloudInsight(),
+      },
     ];
   }
 
@@ -350,7 +361,8 @@ export class AppComponent implements OnInit, OnDestroy {
     if (!this.data?.current) return 'No temperature data available.';
     const temp = this.data.current.temp_c;
     if (temp > 30) return 'Hot weather! Stay hydrated and seek shade.';
-    if (temp > 20) return 'Pleasant temperature, perfect for outdoor activities.';
+    if (temp > 20)
+      return 'Pleasant temperature, perfect for outdoor activities.';
     if (temp > 10) return 'Cool weather, consider a light jacket.';
     return 'Cold weather! Bundle up and stay warm.';
   }
@@ -423,36 +435,45 @@ export class AppComponent implements OnInit, OnDestroy {
   // New Feature Methods
   shareWeather(): void {
     if (!this.data) return;
-    
+
     const weatherText = `Current weather in ${this.dupCity}: ${this.data.current.temp_c}°C, ${this.data.current.condition.text}. Check out this weather app!`;
-    
+
     if (navigator.share) {
-      navigator.share({
-        title: `Weather in ${this.dupCity}`,
-        text: weatherText,
-        url: window.location.href
-      }).catch(err => console.log('Error sharing:', err));
+      navigator
+        .share({
+          title: `Weather in ${this.dupCity}`,
+          text: weatherText,
+          url: window.location.href,
+        })
+        .catch((err) => console.log('Error sharing:', err));
     } else {
       // Fallback: copy to clipboard
-      navigator.clipboard.writeText(weatherText).then(() => {
-        alert('Weather data copied to clipboard!');
-      }).catch(() => {
-        // Fallback for older browsers
-        const textArea = document.createElement('textarea');
-        textArea.value = weatherText;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-        alert('Weather data copied to clipboard!');
-      });
+      navigator.clipboard
+        .writeText(weatherText)
+        .then(() => {
+          alert('Weather data copied to clipboard!');
+        })
+        .catch(() => {
+          // Fallback for older browsers
+          const textArea = document.createElement('textarea');
+          textArea.value = weatherText;
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textArea);
+          alert('Weather data copied to clipboard!');
+        });
     }
   }
 
   previewWeather(): void {
     if (!this.data) return;
-    
-    const previewWindow = window.open('', '_blank', 'width=900,height=700,scrollbars=yes,resizable=yes');
+
+    const previewWindow = window.open(
+      '',
+      '_blank',
+      'width=900,height=700,scrollbars=yes,resizable=yes'
+    );
     if (previewWindow) {
       previewWindow.document.write(`
         <html>
@@ -578,7 +599,9 @@ export class AppComponent implements OnInit, OnDestroy {
                 <div class="weather-icon">🌤️</div>
                 <div class="temperature">${this.data.current.temp_c}°C</div>
                 <div class="condition">${this.data.current.condition.text}</div>
-                <div class="feels-like">Feels like ${this.data.current.feelslike_c}°C</div>
+                <div class="feels-like">Feels like ${
+                  this.data.current.feelslike_c
+                }°C</div>
               </div>
               <div class="preview-body">
                 <div class="stats">
@@ -586,42 +609,54 @@ export class AppComponent implements OnInit, OnDestroy {
                     <div class="stat-icon">💨</div>
                     <div class="stat-content">
                       <div class="stat-label">Wind</div>
-                      <div class="stat-value">${Math.round(this.data.current.wind_kph * 100) / 100} km/h ${this.data.current.wind_dir}</div>
+                      <div class="stat-value">${
+                        Math.round(this.data.current.wind_kph * 100) / 100
+                      } km/h ${this.data.current.wind_dir}</div>
                     </div>
                   </div>
                   <div class="stat">
                     <div class="stat-icon">💧</div>
                     <div class="stat-content">
                       <div class="stat-label">Humidity</div>
-                      <div class="stat-value">${this.data.current.humidity}%</div>
+                      <div class="stat-value">${
+                        this.data.current.humidity
+                      }%</div>
                     </div>
                   </div>
                   <div class="stat">
                     <div class="stat-icon">👁️</div>
                     <div class="stat-content">
                       <div class="stat-label">Visibility</div>
-                      <div class="stat-value">${this.data.current.vis_km} km</div>
+                      <div class="stat-value">${
+                        this.data.current.vis_km
+                      } km</div>
                     </div>
                   </div>
                   <div class="stat">
                     <div class="stat-icon">🌡️</div>
                     <div class="stat-content">
                       <div class="stat-label">Pressure</div>
-                      <div class="stat-value">${this.data.current.pressure_mb} mb</div>
+                      <div class="stat-value">${
+                        this.data.current.pressure_mb
+                      } mb</div>
                     </div>
                   </div>
                   <div class="stat">
                     <div class="stat-icon">🌡️</div>
                     <div class="stat-content">
                       <div class="stat-label">Feels Like</div>
-                      <div class="stat-value">${this.data.current.feelslike_c}°C</div>
+                      <div class="stat-value">${
+                        this.data.current.feelslike_c
+                      }°C</div>
                     </div>
                   </div>
                   <div class="stat">
                     <div class="stat-icon">🌡️</div>
                     <div class="stat-content">
                       <div class="stat-label">Dew Point</div>
-                      <div class="stat-value">${this.data.current.dewpoint_c}°C</div>
+                      <div class="stat-value">${
+                        this.data.current.dewpoint_c
+                      }°C</div>
                     </div>
                   </div>
                 </div>
@@ -634,7 +669,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-
   toggleMapLayers(): void {
     console.log('Toggling map layers...');
     // In a real app, this would toggle different map layers
@@ -645,7 +679,6 @@ export class AppComponent implements OnInit, OnDestroy {
     // You could set a fallback icon here
   }
 
-
   // Chart Functions
   toggleChartType(): void {
     this.chartType = this.chartType === 'line' ? 'bar' : 'line';
@@ -653,7 +686,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   drawTemperatureChart(): void {
-    const canvas = document.querySelector('#temperatureChart') as HTMLCanvasElement;
+    const canvas = document.querySelector(
+      '#temperatureChart'
+    ) as HTMLCanvasElement;
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
@@ -664,9 +699,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // Generate sample temperature data for 24 hours
     const hours = Array.from({ length: 24 }, (_, i) => i);
-    const temperatures = hours.map(hour => {
+    const temperatures = hours.map((hour) => {
       const baseTemp = this.data?.current?.temp_c || 20;
-      const variation = Math.sin((hour - 6) * Math.PI / 12) * 8; // Daily temperature curve
+      const variation = Math.sin(((hour - 6) * Math.PI) / 12) * 8; // Daily temperature curve
       const random = (Math.random() - 0.5) * 4; // Random variation
       return Math.round(baseTemp + variation + random);
     });
@@ -687,7 +722,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // Draw grid lines
     ctx.strokeStyle = '#e9ecef';
     ctx.lineWidth = 1;
-    
+
     // Horizontal grid lines
     for (let i = 0; i <= 5; i++) {
       const y = padding + (chartHeight / 5) * i;
@@ -721,27 +756,64 @@ export class AppComponent implements OnInit, OnDestroy {
     for (let i = 0; i < hours.length; i += 4) {
       const x = padding + stepX * i;
       const hour = hours[i];
-      const timeLabel = hour === 0 ? '12 AM' : hour < 12 ? `${hour} AM` : hour === 12 ? '12 PM' : `${hour - 12} PM`;
+      const timeLabel =
+        hour === 0
+          ? '12 AM'
+          : hour < 12
+          ? `${hour} AM`
+          : hour === 12
+          ? '12 PM'
+          : `${hour - 12} PM`;
       ctx.fillText(timeLabel, x, canvas.height - padding + 20);
     }
 
     if (this.chartType === 'line') {
-      this.drawLineChart(ctx, hours, temperatures, padding, chartWidth, chartHeight, stepX, stepY, minTemp);
+      this.drawLineChart(
+        ctx,
+        hours,
+        temperatures,
+        padding,
+        chartWidth,
+        chartHeight,
+        stepX,
+        stepY,
+        minTemp
+      );
     } else {
-      this.drawBarChart(ctx, hours, temperatures, padding, chartWidth, chartHeight, stepX, stepY, minTemp);
+      this.drawBarChart(
+        ctx,
+        hours,
+        temperatures,
+        padding,
+        chartWidth,
+        chartHeight,
+        stepX,
+        stepY,
+        minTemp
+      );
     }
   }
 
-  private drawLineChart(ctx: CanvasRenderingContext2D, hours: number[], temperatures: number[], padding: number, chartWidth: number, chartHeight: number, stepX: number, stepY: number, minTemp: number): void {
+  private drawLineChart(
+    ctx: CanvasRenderingContext2D,
+    hours: number[],
+    temperatures: number[],
+    padding: number,
+    chartWidth: number,
+    chartHeight: number,
+    stepX: number,
+    stepY: number,
+    minTemp: number
+  ): void {
     // Draw line
     ctx.strokeStyle = '#667eea';
     ctx.lineWidth = 3;
     ctx.beginPath();
-    
+
     for (let i = 0; i < hours.length; i++) {
       const x = padding + stepX * i;
       const y = padding + chartHeight - (temperatures[i] - minTemp) * stepY;
-      
+
       if (i === 0) {
         ctx.moveTo(x, y);
       } else {
@@ -755,31 +827,42 @@ export class AppComponent implements OnInit, OnDestroy {
     for (let i = 0; i < hours.length; i++) {
       const x = padding + stepX * i;
       const y = padding + chartHeight - (temperatures[i] - minTemp) * stepY;
-      
+
       ctx.beginPath();
       ctx.arc(x, y, 4, 0, 2 * Math.PI);
       ctx.fill();
     }
   }
 
-  private drawBarChart(ctx: CanvasRenderingContext2D, hours: number[], temperatures: number[], padding: number, chartWidth: number, chartHeight: number, stepX: number, stepY: number, minTemp: number): void {
+  private drawBarChart(
+    ctx: CanvasRenderingContext2D,
+    hours: number[],
+    temperatures: number[],
+    padding: number,
+    chartWidth: number,
+    chartHeight: number,
+    stepX: number,
+    stepY: number,
+    minTemp: number
+  ): void {
     const barWidth = stepX * 0.6;
-    
+
     for (let i = 0; i < hours.length; i++) {
       const x = padding + stepX * i - barWidth / 2;
       const barHeight = (temperatures[i] - minTemp) * stepY;
       const y = padding + chartHeight - barHeight;
-      
+
       // Create gradient for bars
       const gradient = ctx.createLinearGradient(0, y, 0, y + barHeight);
       gradient.addColorStop(0, '#667eea');
       gradient.addColorStop(1, '#764ba2');
-      
+
       ctx.fillStyle = gradient;
       ctx.fillRect(x, y, barWidth, barHeight);
-      
+
       // Add temperature labels on bars
-      if (i % 4 === 0) { // Show every 4th bar label to avoid clutter
+      if (i % 4 === 0) {
+        // Show every 4th bar label to avoid clutter
         ctx.fillStyle = '#333';
         ctx.font = '10px Arial';
         ctx.textAlign = 'center';
@@ -795,23 +878,23 @@ export class AppComponent implements OnInit, OnDestroy {
     return date.toLocaleTimeString('en-US', {
       hour: 'numeric',
       minute: '2-digit',
-      hour12: true
+      hour12: true,
     });
   }
 
   getSunProgress(): number {
     if (!this.data?.current?.sunrise || !this.data?.current?.sunset) return 0;
-    
+
     const now = new Date();
     const sunrise = new Date(this.data.current.sunrise * 1000);
     const sunset = new Date(this.data.current.sunset * 1000);
-    
+
     const totalDay = sunset.getTime() - sunrise.getTime();
     const elapsed = now.getTime() - sunrise.getTime();
-    
+
     if (elapsed < 0) return 0;
     if (elapsed > totalDay) return 100;
-    
+
     return Math.min(100, Math.max(0, (elapsed / totalDay) * 100));
   }
 }

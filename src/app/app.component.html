@@ -4,16 +4,29 @@
   <div class="app-header">
     <div class="header-controls">
       <!-- Theme Toggle -->
-      <button class="theme-toggle" (click)="toggleTheme()" [title]="isDarkTheme ? 'Switch to Light Theme' : 'Switch to Dark Theme'">
-        <i class="fas" [class.fa-sun]="isDarkTheme" [class.fa-moon]="!isDarkTheme"></i>
+      <button
+        class="theme-toggle"
+        (click)="toggleTheme()"
+        [title]="isDarkTheme ? 'Switch to Light Theme' : 'Switch to Dark Theme'"
+      >
+        <i
+          class="fas"
+          [class.fa-sun]="isDarkTheme"
+          [class.fa-moon]="!isDarkTheme"
+        ></i>
       </button>
-      
+
       <!-- Refresh Button -->
-      <button class="refresh-btn" (click)="refreshWeather()" [disabled]="loading" title="Refresh Weather">
+      <button
+        class="refresh-btn"
+        (click)="refreshWeather()"
+        [disabled]="loading"
+        title="Refresh Weather"
+      >
         <i class="fas fa-sync-alt" [class.fa-spin]="loading"></i>
       </button>
     </div>
-    
+
     <div class="search-container">
       <form #form="ngForm" (ngSubmit)="onSubmit(form)" class="search-form">
         <div class="search-input-group">
@@ -27,15 +40,24 @@
             [(ngModel)]="city"
             (input)="onInputChange()"
           />
-          <button type="submit" class="search-btn" [disabled]="!city || loading">
+          <button
+            type="submit"
+            class="search-btn"
+            [disabled]="!city || loading"
+          >
             <i class="fas fa-arrow-right" *ngIf="!loading"></i>
             <i class="fas fa-spinner fa-spin" *ngIf="loading"></i>
           </button>
         </div>
       </form>
-      
+
       <!-- Location Button -->
-      <button class="location-btn" (click)="getCurrentLocation()" [disabled]="loading" title="Use Current Location">
+      <button
+        class="location-btn"
+        (click)="getCurrentLocation()"
+        [disabled]="loading"
+        title="Use Current Location"
+      >
         <i class="fas fa-map-marker-alt"></i>
       </button>
     </div>
@@ -44,18 +66,19 @@
   <!-- Dynamic Weather Background -->
   <div class="weather-background" [class]="getWeatherBackgroundClass()">
     <div class="weather-particles" *ngIf="data">
-      <div class="particle" *ngFor="let particle of weatherParticles" 
-           [style.left.%]="particle.x" 
-           [style.top.%]="particle.y"
-           [style.animation-delay.s]="particle.delay"
-           [class]="particle.type">
-      </div>
+      <div
+        class="particle"
+        *ngFor="let particle of weatherParticles"
+        [style.left.%]="particle.x"
+        [style.top.%]="particle.y"
+        [style.animation-delay.s]="particle.delay"
+        [class]="particle.type"
+      ></div>
     </div>
   </div>
 
   <!-- Main Weather Dashboard -->
   <div class="weather-dashboard" *ngIf="data && !checkCity; else otherData">
-    
     <!-- Top Section: Current Weather + Key Stats -->
     <div class="top-section">
       <!-- Current Weather Card -->
@@ -63,13 +86,33 @@
         <div class="weather-header">
           <div class="location-info">
             <h2 class="city-name">{{ dupCity }}</h2>
-            <p class="current-time">{{ currentTime | date:'EEEE, MMMM d, y' }}</p>
+            <p class="current-time">
+              {{ currentTime | date : "EEEE, MMMM d, y" }}
+            </p>
           </div>
-          <div class="weather-icon" *ngIf="data && data.current && data.current.condition">
-            <img [src]="data.current.condition.icon" [alt]="data.current.condition.text" 
-                 (error)="onImageError($event)"
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <div class="fallback-icon" style="display: none; width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 50%; align-items: center; justify-content: center; font-size: 40px;">
+          <div
+            class="weather-icon"
+            *ngIf="data && data.current && data.current.condition"
+          >
+            <img
+              [src]="data.current.condition.icon"
+              [alt]="data.current.condition.text"
+              (error)="onImageError($event)"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+            />
+            <div
+              class="fallback-icon"
+              style="
+                display: none;
+                width: 80px;
+                height: 80px;
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 50%;
+                align-items: center;
+                justify-content: center;
+                font-size: 40px;
+              "
+            >
               🌤️
             </div>
           </div>
@@ -78,8 +121,12 @@
         <div class="main-temp">
           <div class="temp-value">{{ data.current.temp_c }}°</div>
           <div class="temp-details">
-            <span class="condition-text">{{ data.current.condition.text }}</span>
-            <span class="feels-like">Feels like {{ data.current.feelslike_c }}°</span>
+            <span class="condition-text">{{
+              data.current.condition.text
+            }}</span>
+            <span class="feels-like"
+              >Feels like {{ data.current.feelslike_c }}°</span
+            >
           </div>
         </div>
       </div>
@@ -95,7 +142,7 @@
             <span class="stat-label">Humidity</span>
           </div>
         </div>
-        
+
         <div class="stat-card">
           <div class="stat-icon">
             <i class="fas fa-wind"></i>
@@ -105,7 +152,7 @@
             <span class="stat-label">Wind</span>
           </div>
         </div>
-        
+
         <div class="stat-card">
           <div class="stat-icon">
             <i class="fas fa-eye"></i>
@@ -115,7 +162,7 @@
             <span class="stat-label">Visibility</span>
           </div>
         </div>
-        
+
         <div class="stat-card">
           <div class="stat-icon">
             <i class="fas fa-thermometer-half"></i>
@@ -132,19 +179,35 @@
     <div class="middle-section">
       <div class="tab-container">
         <div class="tab-buttons">
-          <button class="tab-btn active" (click)="activeTab = 'forecast'" [class.active]="activeTab === 'forecast'">
+          <button
+            class="tab-btn active"
+            (click)="activeTab = 'forecast'"
+            [class.active]="activeTab === 'forecast'"
+          >
             <i class="fas fa-calendar-alt"></i>
             5-Day Forecast
           </button>
-          <button class="tab-btn" (click)="activeTab = 'hourly'" [class.active]="activeTab === 'hourly'">
+          <button
+            class="tab-btn"
+            (click)="activeTab = 'hourly'"
+            [class.active]="activeTab === 'hourly'"
+          >
             <i class="fas fa-clock"></i>
             Hourly
           </button>
-          <button class="tab-btn" (click)="activeTab = 'details'" [class.active]="activeTab === 'details'">
+          <button
+            class="tab-btn"
+            (click)="activeTab = 'details'"
+            [class.active]="activeTab === 'details'"
+          >
             <i class="fas fa-chart-line"></i>
             Details
           </button>
-          <button class="tab-btn" (click)="activeTab = 'alerts'" [class.active]="activeTab === 'alerts'">
+          <button
+            class="tab-btn"
+            (click)="activeTab = 'alerts'"
+            [class.active]="activeTab === 'alerts'"
+          >
             <i class="fas fa-exclamation-triangle"></i>
             Alerts
           </button>
@@ -153,19 +216,36 @@
         <!-- Tab Content -->
         <div class="tab-content">
           <!-- 5-Day Forecast Tab -->
-          <div class="tab-panel" *ngIf="activeTab === 'forecast' && forecastData">
+          <div
+            class="tab-panel"
+            *ngIf="activeTab === 'forecast' && forecastData"
+          >
             <div class="forecast-grid">
-              <div class="forecast-card" *ngFor="let day of forecastData.forecast.forecastday; let i = index">
+              <div
+                class="forecast-card"
+                *ngFor="
+                  let day of forecastData.forecast.forecastday;
+                  let i = index
+                "
+              >
                 <div class="forecast-day">{{ getDayName(day.date) }}</div>
                 <div class="forecast-icon">
-                  <img [src]="day.day.condition.icon" [alt]="day.day.condition.text" />
+                  <img
+                    [src]="day.day.condition.icon"
+                    [alt]="day.day.condition.text"
+                  />
                 </div>
                 <div class="forecast-temps">
                   <span class="forecast-high">{{ day.day.maxtemp_c }}°</span>
                   <span class="forecast-low">{{ day.day.mintemp_c }}°</span>
                 </div>
-                <div class="forecast-condition">{{ day.day.condition.text }}</div>
-                <div class="forecast-rain" *ngIf="day.day.daily_chance_of_rain > 0">
+                <div class="forecast-condition">
+                  {{ day.day.condition.text }}
+                </div>
+                <div
+                  class="forecast-rain"
+                  *ngIf="day.day.daily_chance_of_rain > 0"
+                >
                   <i class="fas fa-cloud-rain"></i>
                   <span>{{ day.day.daily_chance_of_rain }}%</span>
                 </div>
@@ -174,12 +254,21 @@
           </div>
 
           <!-- Hourly Forecast Tab -->
-          <div class="tab-panel" *ngIf="activeTab === 'hourly' && hourlyData.length > 0">
+          <div
+            class="tab-panel"
+            *ngIf="activeTab === 'hourly' && hourlyData.length > 0"
+          >
             <div class="hourly-scroll">
-              <div class="hourly-card" *ngFor="let hour of hourlyData.slice(0, 12)">
+              <div
+                class="hourly-card"
+                *ngFor="let hour of hourlyData.slice(0, 12)"
+              >
                 <div class="hourly-time">{{ formatHour(hour.time) }}</div>
                 <div class="hourly-icon">
-                  <img [src]="hour.condition.icon" [alt]="hour.condition.text" />
+                  <img
+                    [src]="hour.condition.icon"
+                    [alt]="hour.condition.text"
+                  />
                 </div>
                 <div class="hourly-temp">{{ hour.temp_c }}°</div>
                 <div class="hourly-rain" *ngIf="hour.chance_of_rain > 0">
@@ -202,7 +291,7 @@
                   <span class="detail-label">UV Index</span>
                 </div>
               </div>
-              
+
               <div class="detail-card">
                 <div class="detail-icon">
                   <i class="fas fa-cloud"></i>
@@ -212,17 +301,19 @@
                   <span class="detail-label">Cloud Cover</span>
                 </div>
               </div>
-              
+
               <div class="detail-card">
                 <div class="detail-icon">
                   <i class="fas fa-thermometer"></i>
                 </div>
                 <div class="detail-content">
-                  <span class="detail-value">{{ data.current.dewpoint_c }}°C</span>
+                  <span class="detail-value"
+                    >{{ data.current.dewpoint_c }}°C</span
+                  >
                   <span class="detail-label">Dew Point</span>
                 </div>
               </div>
-              
+
               <div class="detail-card">
                 <div class="detail-icon">
                   <i class="fas fa-compass"></i>
@@ -234,13 +325,21 @@
               </div>
 
               <!-- Air Quality -->
-              <div class="detail-card air-quality-card" *ngIf="data.current.air_quality">
+              <div
+                class="detail-card air-quality-card"
+                *ngIf="data.current.air_quality"
+              >
                 <div class="detail-icon">
                   <i class="fas fa-wind"></i>
                 </div>
                 <div class="detail-content">
-                  <span class="detail-value" [class]="getAQIClass(data.current.air_quality['us-epa-index'])">
-                    {{ data.current.air_quality['us-epa-index'] }}
+                  <span
+                    class="detail-value"
+                    [class]="
+                      getAQIClass(data.current.air_quality['us-epa-index'])
+                    "
+                  >
+                    {{ data.current.air_quality["us-epa-index"] }}
                   </span>
                   <span class="detail-label">Air Quality</span>
                 </div>
@@ -250,15 +349,24 @@
 
           <!-- Alerts Tab -->
           <div class="tab-panel" *ngIf="activeTab === 'alerts'">
-            <div class="alerts-list" *ngIf="weatherAlerts.length > 0; else noAlerts">
-              <div class="alert-card" *ngFor="let alert of weatherAlerts" [class]="'alert-' + alert.severity">
+            <div
+              class="alerts-list"
+              *ngIf="weatherAlerts.length > 0; else noAlerts"
+            >
+              <div
+                class="alert-card"
+                *ngFor="let alert of weatherAlerts"
+                [class]="'alert-' + alert.severity"
+              >
                 <div class="alert-icon">
                   <i class="fas fa-exclamation-circle"></i>
                 </div>
                 <div class="alert-content">
                   <div class="alert-title">{{ alert.title }}</div>
                   <div class="alert-description">{{ alert.description }}</div>
-                  <div class="alert-time">{{ formatAlertTime(alert.time) }}</div>
+                  <div class="alert-time">
+                    {{ formatAlertTime(alert.time) }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -302,7 +410,9 @@
                 <small>Click to view detailed weather patterns</small>
                 <div class="map-weather-info">
                   <div class="map-temp">{{ data.current.temp_c }}°</div>
-                  <div class="map-condition">{{ data.current.condition.text }}</div>
+                  <div class="map-condition">
+                    {{ data.current.condition.text }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -318,8 +428,12 @@
             </h3>
             <div class="chart-controls">
               <button class="chart-btn" (click)="toggleChartType()">
-                <i class="fas" [class.fa-chart-line]="chartType === 'line'" [class.fa-chart-bar]="chartType === 'bar'"></i>
-                {{ chartType === 'line' ? 'Bar Chart' : 'Line Chart' }}
+                <i
+                  class="fas"
+                  [class.fa-chart-line]="chartType === 'line'"
+                  [class.fa-chart-bar]="chartType === 'bar'"
+                ></i>
+                {{ chartType === "line" ? "Bar Chart" : "Line Chart" }}
               </button>
             </div>
           </div>
@@ -365,13 +479,18 @@
                 <i class="fas fa-sun"></i>
               </div>
               <div class="sun-details">
-                <div class="sun-time">{{ formatSunTime(data.current.sunrise) }}</div>
+                <div class="sun-time">
+                  {{ formatSunTime(data.current.sunrise) }}
+                </div>
                 <div class="sun-label">Sunrise</div>
               </div>
             </div>
             <div class="sun-progress">
               <div class="sun-progress-bar">
-                <div class="sun-progress-fill" [style.width.%]="getSunProgress()"></div>
+                <div
+                  class="sun-progress-fill"
+                  [style.width.%]="getSunProgress()"
+                ></div>
               </div>
             </div>
             <div class="sun-item">
@@ -379,12 +498,14 @@
                 <i class="fas fa-moon"></i>
               </div>
               <div class="sun-details">
-                <div class="sun-time">{{ formatSunTime(data.current.sunset) }}</div>
+                <div class="sun-time">
+                  {{ formatSunTime(data.current.sunset) }}
+                </div>
                 <div class="sun-label">Sunset</div>
               </div>
             </div>
-    </div>
-      </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -395,7 +516,13 @@
       <div class="loading-spinner">
         <div class="spinner"></div>
       </div>
-      <p class="loading-text">{{ loading ? 'Loading weather data...' : 'Search for a city to get started' }}</p>
+      <p class="loading-text">
+        {{
+          loading
+            ? "Loading weather data..."
+            : "Search for a city to get started"
+        }}
+      </p>
     </div>
   </ng-template>
 
@@ -417,29 +544,46 @@
           <h3>Interactive Weather Map</h3>
         </div>
         <div class="modal-actions">
-          <button class="action-btn share-btn" (click)="shareWeather()" title="Share Weather">
+          <button
+            class="action-btn share-btn"
+            (click)="shareWeather()"
+            title="Share Weather"
+          >
             <i class="fas fa-share-alt"></i>
           </button>
-          <button class="action-btn preview-btn" (click)="previewWeather()" title="Preview Details">
+          <button
+            class="action-btn preview-btn"
+            (click)="previewWeather()"
+            title="Preview Details"
+          >
             <i class="fas fa-eye"></i>
           </button>
-          <button class="modal-close-btn" (click)="closeMapModal()" title="Close">
+          <button
+            class="modal-close-btn"
+            (click)="closeMapModal()"
+            title="Close"
+          >
             <i class="fas fa-times"></i>
           </button>
         </div>
       </div>
-      
+
       <div class="modal-body">
         <!-- Weather Info Card -->
         <div class="weather-info-card" *ngIf="data && data.current">
           <div class="weather-main-info">
             <div class="weather-icon">
-              <img [src]="data.current.condition.icon" [alt]="data.current.condition.text" />
+              <img
+                [src]="data.current.condition.icon"
+                [alt]="data.current.condition.text"
+              />
             </div>
             <div class="weather-details">
               <div class="temperature">{{ data.current.temp_c }}°C</div>
               <div class="condition">{{ data.current.condition.text }}</div>
-              <div class="feels-like">Feels like {{ data.current.feelslike_c }}°C</div>
+              <div class="feels-like">
+                Feels like {{ data.current.feelslike_c }}°C
+              </div>
             </div>
           </div>
           <div class="weather-stats">
@@ -468,7 +612,9 @@
             <div class="map-placeholder-large">
               <i class="fas fa-globe-americas"></i>
               <p>Interactive Weather Map</p>
-              <small>Real-time weather visualization with detailed patterns</small>
+              <small
+                >Real-time weather visualization with detailed patterns</small
+              >
               <div class="map-controls-panel">
                 <button class="map-control-btn" (click)="refreshMap()">
                   <i class="fas fa-sync-alt"></i>
@@ -499,7 +645,9 @@
                 <i class="fas fa-wind"></i>
                 <div>
                   <div class="label">Wind</div>
-                  <div class="value">{{ data.current.wind_kph }} km/h {{ data.current.wind_dir }}</div>
+                  <div class="value">
+                    {{ data.current.wind_kph }} km/h {{ data.current.wind_dir }}
+                  </div>
                 </div>
               </div>
               <div class="info-item">
@@ -546,7 +694,7 @@
               </div>
             </div>
           </div>
-          
+
           <!-- Weather Insights -->
           <div class="info-section">
             <h4>Weather Insights</h4>
@@ -555,37 +703,47 @@
                 <i class="fas fa-lightbulb"></i>
                 <div class="insight-content">
                   <div class="insight-title">Temperature Trend</div>
-                  <div class="insight-desc">Cool weather, consider a light jacket</div>
+                  <div class="insight-desc">
+                    Cool weather, consider a light jacket
+                  </div>
                 </div>
               </div>
               <div class="insight-card">
                 <i class="fas fa-wind"></i>
                 <div class="insight-content">
                   <div class="insight-title">Wind Analysis</div>
-                  <div class="insight-desc">Light breeze, pleasant conditions</div>
+                  <div class="insight-desc">
+                    Light breeze, pleasant conditions
+                  </div>
                 </div>
               </div>
               <div class="insight-card">
                 <i class="fas fa-tint"></i>
                 <div class="insight-content">
                   <div class="insight-title">Humidity Level</div>
-                  <div class="insight-desc">Moderate humidity, comfortable conditions</div>
+                  <div class="insight-desc">
+                    Moderate humidity, comfortable conditions
+                  </div>
                 </div>
               </div>
               <div class="insight-card">
                 <i class="fas fa-eye"></i>
                 <div class="insight-content">
                   <div class="insight-title">Visibility Report</div>
-                  <div class="insight-desc">Excellent visibility, clear conditions</div>
+                  <div class="insight-desc">
+                    Excellent visibility, clear conditions
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      
+
       <div class="modal-footer">
-        <button class="btn btn-secondary" (click)="closeMapModal()">Close</button>
+        <button class="btn btn-secondary" (click)="closeMapModal()">
+          Close
+        </button>
         <button class="btn btn-primary" (click)="shareWeather()">
           <i class="fas fa-share-alt"></i>
           Share Weather
