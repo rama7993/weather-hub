@@ -235,7 +235,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   applyTheme(): void {
-    document.body.classList.toggle('dark-theme', this.isDarkTheme);
+    if (this.isDarkTheme) {
+      document.body.classList.add('dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+    }
   }
 
   refreshWeather(): void {

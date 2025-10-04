@@ -1,9 +1,10 @@
 /* Import Font Awesome */
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css");
 
 /* Global Styles */
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", sans-serif;
   font-size: 16px;
   width: 100%;
   min-height: 100vh;
@@ -22,38 +23,76 @@ body {
 
 /* Enhanced Animated Background */
 body::before {
-  content: '';
+  content: "";
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
-    radial-gradient(circle at 20% 20%, rgba(120, 119, 198, 0.4) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(255, 119, 198, 0.4) 0%, transparent 50%),
-    radial-gradient(circle at 40% 60%, rgba(120, 219, 255, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 60% 30%, rgba(255, 215, 0, 0.2) 0%, transparent 60%),
-    radial-gradient(circle at 30% 70%, rgba(255, 165, 0, 0.2) 0%, transparent 60%);
+  background: radial-gradient(
+      circle at 20% 20%,
+      rgba(120, 119, 198, 0.4) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(255, 119, 198, 0.4) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 40% 60%,
+      rgba(120, 219, 255, 0.3) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 60% 30%,
+      rgba(255, 215, 0, 0.2) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 30% 70%,
+      rgba(255, 165, 0, 0.2) 0%,
+      transparent 60%
+    );
   animation: floatingBubbles 25s ease-in-out infinite;
   z-index: -1;
 }
 
 /* Floating Particles */
 body::after {
-  content: '';
+  content: "";
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
-    radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.3), transparent),
+  background-image: radial-gradient(
+      2px 2px at 20px 30px,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    ),
     radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.2), transparent),
     radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.4), transparent),
-    radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.3), transparent),
-    radial-gradient(2px 2px at 160px 30px, rgba(255, 255, 255, 0.2), transparent),
-    radial-gradient(1px 1px at 200px 60px, rgba(255, 255, 255, 0.3), transparent),
-    radial-gradient(2px 2px at 250px 20px, rgba(255, 255, 255, 0.2), transparent);
+    radial-gradient(
+      1px 1px at 130px 80px,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    ),
+    radial-gradient(
+      2px 2px at 160px 30px,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    ),
+    radial-gradient(
+      1px 1px at 200px 60px,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    ),
+    radial-gradient(
+      2px 2px at 250px 20px,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
   background-repeat: repeat;
   background-size: 300px 150px;
   z-index: -1;
@@ -73,7 +112,8 @@ body::after {
 }
 
 @keyframes floatingBubbles {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px) translateX(0px) rotate(0deg) scale(1);
     opacity: 0.8;
   }
@@ -171,28 +211,74 @@ input {
 
 /* Dark Theme */
 body.dark-theme {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  background: linear-gradient(135deg, #0a0a0a 0%, #0d1117 50%, #161b22 100%);
   color: #e0e0e0;
 }
 
 body.dark-theme::before {
-  background: 
-    radial-gradient(circle at 20% 20%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 40% 60%, rgba(120, 219, 255, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 60% 30%, rgba(255, 215, 0, 0.15) 0%, transparent 60%),
-    radial-gradient(circle at 30% 70%, rgba(255, 165, 0, 0.15) 0%, transparent 60%);
+  background: radial-gradient(
+      circle at 20% 20%,
+      rgba(120, 119, 198, 0.15) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(255, 119, 198, 0.15) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 40% 60%,
+      rgba(120, 219, 255, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 60% 30%,
+      rgba(255, 215, 0, 0.08) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 30% 70%,
+      rgba(255, 165, 0, 0.08) 0%,
+      transparent 60%
+    );
 }
 
 body.dark-theme::after {
-  background-image: 
-    radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.1), transparent),
-    radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.08), transparent),
-    radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.12), transparent),
-    radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.1), transparent),
-    radial-gradient(2px 2px at 160px 30px, rgba(255, 255, 255, 0.08), transparent),
-    radial-gradient(1px 1px at 200px 60px, rgba(255, 255, 255, 0.1), transparent),
-    radial-gradient(2px 2px at 250px 20px, rgba(255, 255, 255, 0.08), transparent);
+  background-image: radial-gradient(
+      2px 2px at 20px 30px,
+      rgba(255, 255, 255, 0.05),
+      transparent
+    ),
+    radial-gradient(
+      2px 2px at 40px 70px,
+      rgba(255, 255, 255, 0.04),
+      transparent
+    ),
+    radial-gradient(
+      1px 1px at 90px 40px,
+      rgba(255, 255, 255, 0.06),
+      transparent
+    ),
+    radial-gradient(
+      1px 1px at 130px 80px,
+      rgba(255, 255, 255, 0.05),
+      transparent
+    ),
+    radial-gradient(
+      2px 2px at 160px 30px,
+      rgba(255, 255, 255, 0.04),
+      transparent
+    ),
+    radial-gradient(
+      1px 1px at 200px 60px,
+      rgba(255, 255, 255, 0.05),
+      transparent
+    ),
+    radial-gradient(
+      2px 2px at 250px 20px,
+      rgba(255, 255, 255, 0.04),
+      transparent
+    );
 }
 
 /* Dark theme scrollbar */
